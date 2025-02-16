@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BakToDockerSql"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450"Height="464" Width="800"Width="542">
+        Title="MainWindow" Width="800">
     <Grid>
         <Button x:Name="btnStartServer" Content="Start Server" HorizontalAlignment="Left" Margin="271,366,0,0" VerticalAlignment="Top" Height="29" Width="146"/>
         <Label x:Name="lblInstructions" Content="Add/Remove .bak Files" Margin="10,111,375,297" FontWeight="Bold"/>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,151,397,160" Background="#FFB4B3B3"/>
+        <ListBox x:Name="lbFiles" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,151,652,160" Background="#FFB4B3B3"/>
         <Label x:Name="lblUsername" Content="Username:" Margin="10,302,453,106"/>
         <Label x:Name="lblPassword" Content="Password:" Margin="10,333,453,75"/>
         <Label x:Name="lblPort" Content="Port:" Margin="10,368,453,40"/>
