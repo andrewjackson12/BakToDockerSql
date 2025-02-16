@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BakToDockerSql"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450"Height="464" Width="800"Width="542">
     <Grid>
+        <Button x:Name="btnStartServer" Content="Start Server" HorizontalAlignment="Left" Margin="271,366,0,0" VerticalAlignment="Top" Height="29" Width="146"/>
+        <Label x:Name="lblInstructions" Content="Add/Remove .bak Files" Margin="10,111,375,297" FontWeight="Bold"/>
+        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,151,397,160" Background="#FFB4B3B3"/>
+        <Label x:Name="lblUsername" Content="Username:" Margin="10,302,453,106"/>
+        <Label x:Name="lblPassword" Content="Password:" Margin="10,333,453,75"/>
+        <Label x:Name="lblPort" Content="Port:" Margin="10,368,453,40"/>
+        <TextBox x:Name="txtUsername" HorizontalAlignment="Left" Margin="88,315,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="88,346,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="txtPort" HorizontalAlignment="Left" Margin="88,376,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="btnAddBak" Content="Add File" HorizontalAlignment="Left" Margin="172,189,0,0" VerticalAlignment="Top" Width="99"/>
+        <Button x:Name="btnRemoveBak" Content="Remove Selected" HorizontalAlignment="Left" Margin="172,224,0,0" VerticalAlignment="Top" Width="99"/>
 
     </Grid>
 </Window>
