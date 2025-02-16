@@ -74,5 +74,39 @@ namespace BakToDockerSql
                 }
             }
         }
+
+        private void btnRemoveBak_Click(object sender, RoutedEventArgs e)
+        {
+            /*
+             * Removes the selected file from storage. 
+             * Currently only works for one selected file.
+             */
+
+            // Check if a file is selected
+            if (lbFiles.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select an Item first!");
+                return;
+            }
+
+            // Get the name of the selected file
+            string selectedFile = lbFiles.SelectedItem.ToString();
+
+            // Construct the path of the file stored locally
+            string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backups");
+            backupFolder += $@"\{selectedFile}";
+
+            try
+            {
+                // Delete the file
+                File.Delete(backupFolder);
+                MessageBox.Show($"{selectedFile} has been deleted.");
+                // RefreshFiles call here (should be used on open of app too)
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting the file {selectedFile}: {ex.Message}", "Error Deleting File", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }
