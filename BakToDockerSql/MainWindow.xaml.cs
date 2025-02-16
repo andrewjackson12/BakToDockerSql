@@ -17,9 +17,12 @@ namespace BakToDockerSql
     /// </summary>
     public partial class MainWindow : Window
     {
+        string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backups");
+
         public MainWindow()
         {
             InitializeComponent();
+            RefreshFiles();
         }
 
         private void btnAddBak_Click(object sender, RoutedEventArgs e)
@@ -47,7 +50,6 @@ namespace BakToDockerSql
                 }
 
                 // Define the destination folder ("Backups") relative to the application's base directory
-                string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backups");
 
                 // Create the "Backups" folder if it doesn't exist
                 if (!Directory.Exists(backupFolder))
@@ -93,20 +95,42 @@ namespace BakToDockerSql
             string selectedFile = lbFiles.SelectedItem.ToString();
 
             // Construct the path of the file stored locally
-            string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backups");
-            backupFolder += $@"\{selectedFile}";
+            string fileToDelete = backupFolder + $@"\{selectedFile}";
 
             try
             {
                 // Delete the file
-                File.Delete(backupFolder);
+                File.Delete(fileToDelete);
                 MessageBox.Show($"{selectedFile} has been deleted.");
-                // RefreshFiles call here (should be used on open of app too)
+
+                //Refresh the ListBox
+                RefreshFiles();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error deleting the file {selectedFile}: {ex.Message}", "Error Deleting File", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void RefreshFiles()
+        {
+            // Clear the LB
+            lbFiles.Items.Clear();
+
+            // Check if the directory exists
+            if (!Directory.Exists(backupFolder))
+            {
+                return;
+            }
+
+            // Get all the files and add them to the LB
+            string[] existingFiles = Directory.GetFiles(backupFolder);
+
+            foreach(string file in existingFiles)
+            {
+                lbFiles.Items.Add(Path.GetFileName(file));
+            }
+
         }
     }
 }
