@@ -8,11 +8,11 @@ services:
       dockerfile: Dockerfile
     container_name: localsql
     ports:
-      - "1433:1433"
+      - "{port}:{port}"
     volumes:
       - sqlvolume:/var/opt/mssql
     environment:
-      MSSQL_SA_PASSWORD: Password123
+      MSSQL_SA_PASSWORD: {sqlPassword}
       ACCEPT_EULA: "Y"
 
 volumes:
