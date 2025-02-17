@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Width="800">
     <Grid>
-        <Button x:Name="btnStartServer" Content="Start Server" HorizontalAlignment="Left" Margin="271,366,0,0" VerticalAlignment="Top" Height="29" Width="146"/>
+        <Button x:Name="btnStartServer" Content="Start Server" HorizontalAlignment="Left" Margin="271,366,0,0" VerticalAlignment="Top" Height="29" Width="146" Click="btnStartServer_Click"/>
         <Label x:Name="lblInstructions" Content="Add/Remove .bak Files" Margin="10,111,375,297" FontWeight="Bold"/>
         <ListBox x:Name="lbFiles" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,151,652,160" Background="#FFB4B3B3"/>
         <Label x:Name="lblUsername" Content="Username:" Margin="10,302,453,106"/>

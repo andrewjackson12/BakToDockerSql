@@ -18,7 +18,8 @@ namespace BakToDockerSql
     public partial class MainWindow : Window
     {
         string backupFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Backups");
-
+        string composeTemplateName = "DockerComposeTemplate.txt";
+        string dockerFileTemplateName = "DockerFileTemplate.txt";
         public MainWindow()
         {
             InitializeComponent();
@@ -130,6 +131,58 @@ namespace BakToDockerSql
             {
                 lbFiles.Items.Add(Path.GetFileName(file));
             }
+
+        }
+
+        private void btnStartServer_Click(object sender, RoutedEventArgs e)
+        {
+            /*
+             * Starts the dockerized SQL server based on user inputs
+            */
+            // Check if a file is selected
+            if (lbFiles.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please select an Item first!");
+                return;
+            }
+
+            // Get the name of the selected file
+            string selectedFile = lbFiles.SelectedItem.ToString();
+
+            // Get the password
+            string sqlPassword = txtPassword.Text.ToString();
+
+            // Get the port
+            string port = txtPort.Text.ToString();
+
+            // Get our template files as strings
+            string composeTemplate = File.ReadAllText(composeTemplateName);
+            string dockerFileTemplate = File.ReadAllText(dockerFileTemplateName);
+
+
+            // Replace placeholders with actual user input values
+            composeTemplate = composeTemplate.Replace("{port}", port)
+                .Replace("{sqlPassword}", sqlPassword);
+
+            dockerFileTemplate = dockerFileTemplate.Replace("{port}", port)
+                .Replace("{sqlPassword}", sqlPassword)
+                .Replace("{backupFileName}", selectedFile);
+
+            // Add a folder to store the generated files
+            string outputDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "GeneratedFiles");
+            if (!Directory.Exists(outputDirectory))
+            {
+                Directory.CreateDirectory(outputDirectory);
+            }
+
+
+            // Write the Docker Compose file
+            string dockerComposePath = Path.Combine(outputDirectory, "docker-compose.yml");
+            File.WriteAllText(dockerComposePath, composeTemplate);
+
+            // Write the Dockerfile
+            string dockerFilePath = Path.Combine(outputDirectory, "Dockerfile");
+            File.WriteAllText(dockerFilePath, dockerFileTemplate);
 
         }
     }
