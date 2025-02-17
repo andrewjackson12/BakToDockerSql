@@ -1,0 +1,39 @@
+FROM mcr.microsoft.com/mssql/server:2022-latest
+
+# Environment variables
+ENV ACCEPT_EULA=Y
+ENV MSSQL_SA_PASSWORD=Password123
+
+
+# Switch to root to perform file operations
+USER root
+
+# Install mssql-tools and dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    apt-transport-https \
+    gnupg2 \
+    ca-certificates \
+    lsb-release \
+    unixodbc-dev \
+    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | tee /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update \
+    && ACCEPT_EULA=Y apt-get install -y mssql-tools
+
+# Create necessary directories
+RUN mkdir -p /var/opt/mssql/backups /var/opt/mssql/data
+
+# Copy the backup file and initialization script
+COPY backups/HetronicTest2.bak /tmp/test.bak
+COPY initialize-db.sh /usr/local/bin/
+
+# Make the script executable
+RUN chmod +x /usr/local/bin/initialize-db.sh
+
+
+# Switch back to the default SQL Server user
+USER mssql
+
+# Start SQL Server and initialize the database
+CMD /opt/mssql/bin/sqlservr & /usr/local/bin/initialize-db.sh; sleep infinity
